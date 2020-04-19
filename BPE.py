@@ -1,13 +1,20 @@
 from collections import Counter, defaultdict
 from pprint import pprint
 import re
+from tqdm import tqdm
 
 END_OF_WORD_SIGN = '</w>'
 
-def read_text_file(path: str)-> str:
+def read_text_file(path: str, **kwargs)-> str:
     f = open(path, "r")
-    contents = f.read()
+    if "max_size" in kwargs.keys():
+        max_size = kwargs['max_size']
+        line_list = f.readlines(max_size)
+        contents = ' '.join(line_list)
+    else:
+        contents = f.read()
     return contents
+
 
 def build_vocab(corpus: str) -> dict:
     """Step 1. Build vocab from text corpus"""
@@ -66,10 +73,10 @@ def write_vocabset(path: str, vocab_set: set) -> bool:
 
 
 if __name__ == '__main__':
-    corpus = read_text_file('persian.txt')
+    corpus = read_text_file('fa_dedup.txt', max_size=1024*1024)
     vocab = build_vocab(corpus)
-    num_merges = 100  # Hyperparameter
-    for i in range(num_merges):
+    num_merges = 1000  # Hyperparameter
+    for i in tqdm(range(num_merges)):
 
         pairs = get_stats(vocab)  # Step 2
 
