@@ -22,7 +22,7 @@ def build_vocab(corpus: str) -> dict:
     """Step 1. Build vocab from text corpus"""
 
     # Separate each char in word by space and add mark end of token
-    tokens = [START_OF_WORD_SIGN + " ".join(word) + END_OF_WORD_SIGN for word in corpus.split()]
+    tokens = [START_OF_WORD_SIGN + " " + " ".join(word) + " " + END_OF_WORD_SIGN for word in corpus.split()]
 
     # Count frequency of tokens in corpus
     vocab = Counter(tokens)
@@ -36,7 +36,6 @@ def get_stats(vocab: dict) -> dict:
     pairs = defaultdict(int)
     for word, frequency in vocab.items():
         symbols = word.split()
-
         # Counting up occurrences of pairs
         for i in range(len(symbols) - 1):
             pairs[symbols[i], symbols[i + 1]] += frequency
