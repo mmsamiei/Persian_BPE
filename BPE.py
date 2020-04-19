@@ -70,14 +70,14 @@ def write_vocabset(path: str, vocab_set: set) -> bool:
     f = open(path, 'w')
     for index, vocab in enumerate(vocab_set):
         #refined_vocab = vocab.replace(END_OF_WORD_SIGN, '')
-        f.write(str(index)+'\t'+refined_vocab+'\n')
+        f.write(str(index)+'\t'+vocab+'\n')
     return True
 
 
 if __name__ == '__main__':
-    corpus = read_text_file('fa_dedup.txt', max_size=4*1024*1024)
+    corpus = read_text_file('fa_dedup.txt', max_size=1024*1024)
     vocab = build_vocab(corpus)
-    num_merges = 2000  # Hyperparameter
+    num_merges = 100  # Hyperparameter
     for i in tqdm(range(num_merges)):
         pairs = get_stats(vocab)  # Step 2
 
